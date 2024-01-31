@@ -9,6 +9,8 @@ describe('check getFullYear function', () => {
 describe('check getFooterCopy function', () => {
   it('check output', () => {
     expect(getFooterCopy(true)).toBe('Holberton School');
+  })
+  it('check output', () => {
     expect(getFooterCopy(false)).toBe('Holberton School main dashboard');
   })
 })
