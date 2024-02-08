@@ -16,6 +16,10 @@ export default class Notifications extends Component {
 		console.log(`Notification ${id} has been marked as read`);
 	}
 
+  shouldComponentUpdate(next) {
+    return next.length > this.props.listNotifications.length;
+  }
+
 	render() {
 		return (
 			<div className='Noti'>
