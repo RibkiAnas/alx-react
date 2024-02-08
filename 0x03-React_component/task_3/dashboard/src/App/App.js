@@ -8,6 +8,7 @@ import Notifications from '../Notifications/Notifications';
 import CourseList from '../CourseList/CourseList';
 import { getLatestNotification } from '../utils/utils';
 import BodySection from '../BodySection/BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 
 class App extends Component {
 	constructor(props) {
@@ -76,15 +77,21 @@ class App extends Component {
 					<Header />
 					<div className='App-body'>
 						{this.props.isLoggedIn ? (
-							<CourseList listCourses={this.listCourses} />
+							<BodySectionWithMarginBottom title='Course list'>
+								<CourseList listCourses={this.listCourses} />
+							</BodySectionWithMarginBottom>
 						) : (
-							<Login />
+							<BodySectionWithMarginBottom title='Log in to continue'>
+								<Login />
+							</BodySectionWithMarginBottom>
 						)}
-						<BodySection title='Lorem ipsum dolor'>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat
-							delectus possimus dignissimos architecto reiciendis enim minus
-							animi vitae maiores. Quam inventore nisi totam, dolor tenetur
-							dicta maiores dolores at quidem.
+						<BodySection title='News from the School'>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+								Repellat delectus possimus dignissimos architecto reiciendis
+								enim minus animi vitae maiores. Quam inventore nisi totam, dolor
+								tenetur dicta maiores dolores at quidem.
+							</p>
 						</BodySection>
 					</div>
 					<div className='App-footer'>
