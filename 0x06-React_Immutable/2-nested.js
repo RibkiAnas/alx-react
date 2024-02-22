@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 
-export default function accessImmutableObject (object, array) {
-  return fromJS(object).getIn(array, undefined);
-}
+const accessImmutableObject = (object, array) =>
+	fromJS(object).getIn(array, undefined);
+
+export default accessImmutableObject;
