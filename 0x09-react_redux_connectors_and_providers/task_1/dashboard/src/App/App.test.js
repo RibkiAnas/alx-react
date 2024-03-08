@@ -132,7 +132,9 @@ describe('App component', () => {
 
 		it('verify that the mapStateToProps returns the right object', () => {
 			const state = fromJS({ isUserLoggedIn: true });
+
 			const result = mapStateToProps(state);
+
 			expect(result).toEqual({ isLoggedIn: true });
 		});
 	});
