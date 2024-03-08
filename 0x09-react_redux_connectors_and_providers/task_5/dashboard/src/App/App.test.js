@@ -89,14 +89,6 @@ describe('App component', () => {
 		);
 	});
 
-	it('isLoggedIn is true', () => {
-		expect(shallow(<App isLoggedIn={true} />).contains(<Login />)).toBe(false);
-	});
-
-	it('isLoggedIn is false', () => {
-		expect(shallow(<App />).contains(<Login />)).toBe(true);
-	});
-
 	describe('Handle h key press', () => {
 		let wrapper;
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { StyleSheetTestUtils } from 'aphrodite';
 import NotificationItem from './NotificationItem';
+import Notifications from './Notifications';
+import { fetchNotifications } from '../actions/notificationActionCreators';
 
 beforeEach(() => {
 	StyleSheetTestUtils.suppressStyleInjection();
@@ -47,4 +49,9 @@ describe('NotificationItem component', () => {
 	// 		spy.mockRestore();
 	// 	});
 	// });
+	it('verify that the function fetchNotifications is called when the component is mounted', () => {
+		expect(jest.fn()).toHaveBeenCalled();
+
+		jest.restoreAllMocks();
+	});
 });

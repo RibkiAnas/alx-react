@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import notificationReducer, {
 	initialNotificationState,
 } from './notificationReducer';
@@ -5,7 +6,7 @@ import notificationReducer, {
 describe('notification reducer', () => {
 	it('should return the initial state', () => {
 		expect(notificationReducer(undefined, {})).toEqual(
-			initialNotificationState
+			Map(initialNotificationState)
 		);
 	});
 });
