@@ -18,54 +18,21 @@ import {
 	logout,
 } from '../actions/uiActionCreators';
 
+const listCourses = [
+	{ id: 1, name: 'Cource 1', credit: 60 },
+	{ id: 2, name: 'Cource 2', credit: 20 },
+	{ id: 3, name: 'Cource 3', credit: 40 },
+];
+
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			user: defaultUser,
-			listNotifications: [
-				{
-					id: 1,
-					type: 'default',
-					value: 'New course available',
-				},
-				{
-					id: 2,
-					type: 'urgent',
-					value: 'New resume available',
-				},
-				{
-					id: 3,
-					html: {
-						__html: getLatestNotification(),
-					},
-					type: 'urgent',
-				},
-			],
 		};
 
 		this.handleKeyPress = this.handleKeyPress.bind(this);
-
-		this.markNotificationsAsRead = this.markNotificationsAsRead.bind(this);
 	}
-
-	listCourses = [
-		{
-			id: 1,
-			name: 'ES6',
-			credit: '60',
-		},
-		{
-			id: 2,
-			name: 'Webpack',
-			credit: '20',
-		},
-		{
-			id: 3,
-			name: 'React',
-			credit: '40',
-		},
-	];
 
 	handleKeyPress = (event) => {
 		if (event.key === 'h' && event.ctrlKey) {
@@ -73,14 +40,6 @@ class App extends Component {
 			this.state.logout();
 		}
 	};
-
-	markNotificationsAsRead(id) {
-		this.setState({
-			listNotifications: this.state.listNotifications.filter(
-				(notification) => notification.id !== id
-			),
-		});
-	}
 
 	componentDidMount() {
 		document.addEventListener('keydown', this.handleKeyPress);
@@ -91,7 +50,7 @@ class App extends Component {
 	}
 
 	render() {
-		const { user, listNotifications } = this.state;
+		const { user } = this.state;
 
 		const {
 			isLoggedIn,
@@ -99,13 +58,12 @@ class App extends Component {
 			displayNotificationDrawer,
 			hideNotificationDrawer,
 			login,
+			logout,
 		} = this.props;
 
 		return (
 			<>
 				<Notifications
-					listNotifications={listNotifications}
-					markNotificationsAsRead={this.markNotificationsAsRead}
 					displayDrawer={displayDrawer}
 					handleDisplayDrawer={displayNotificationDrawer}
 					handleHideDrawer={hideNotificationDrawer}
@@ -115,7 +73,7 @@ class App extends Component {
 					<div className={css(styles['App-body'])}>
 						{isLoggedIn ? (
 							<BodySectionWithMarginBottom title='Course list'>
-								<CourseList listCourses={this.listCourses} />
+								<CourseList listCourses={listCourses} />
 							</BodySectionWithMarginBottom>
 						) : (
 							<BodySectionWithMarginBottom title='Log in to continue'>
