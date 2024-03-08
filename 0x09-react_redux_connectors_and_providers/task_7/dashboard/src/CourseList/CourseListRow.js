@@ -15,13 +15,15 @@ const headerStyle = {
 };
 
 export default function CourseListRow({
+	id,
 	isHeader,
 	textFirstCell,
 	textSecondCell,
+	isChecked,
+	onChangeRow,
 }) {
-	const [checked, setChecked] = useState(false);
+	const handleCheck = () => onChangeRow(id, !isChecked);
 
-	const handleCheck = () => setChecked(!checked);
 	return (
 		<tr style={isHeader ? headerStyle : rowStyle}>
 			{isHeader ? (
@@ -41,11 +43,11 @@ export default function CourseListRow({
 				)
 			) : (
 				<>
-					<td className={checked && css(styles.rowChecked)}>
+					<td className={isChecked && css(styles.rowChecked)}>
 						<input
 							type='checkbox'
 							onChange={handleCheck}
-							defaultChecked={checked}
+							defaultChecked={isChecked}
 						/>
 						{textFirstCell}
 					</td>
@@ -57,14 +59,20 @@ export default function CourseListRow({
 }
 
 CourseListRow.propTypes = {
+	id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	isHeader: propTypes.bool,
 	textFirstCell: propTypes.string.isRequired,
 	textSecondCell: propTypes.oneOfType([propTypes.string, propTypes.number]),
+	isChecked: PropTypes.bool,
+	onChangeRow: PropTypes.func,
 };
 
 CourseListRow.defaultProps = {
+	id: null,
 	isHeader: false,
 	textSecondCell: null,
+	isChecked: false,
+	onChangeRow: () => {},
 };
 
 const styles = StyleSheet.create({
