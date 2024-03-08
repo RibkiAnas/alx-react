@@ -9,6 +9,7 @@ import notificationsNormalizer from '../schema/notifications';
 export const initialNotificationState = {
 	notifications: [],
 	filter: 'DEFAULT',
+	loading: false,
 };
 
 const notificationReducer = (state = Map(initialNotificationState), action) => {
@@ -18,7 +19,7 @@ const notificationReducer = (state = Map(initialNotificationState), action) => {
 			Object.keys(normalizedData).map((key) => {
 				normalizedData[key].isRead = false;
 			});
-			return state.merge(normalizedData);
+			return state.mergeDeep(normalizedData);
 
 		case MARK_AS_READ:
 			return state.setIn(
@@ -28,6 +29,9 @@ const notificationReducer = (state = Map(initialNotificationState), action) => {
 
 		case SET_TYPE_FILTER:
 			return state.setIn(['filter'], action.filter);
+
+		case SET_LOADING_STATE:
+			return state.set('loading', action.loading);
 
 		default:
 			break;
