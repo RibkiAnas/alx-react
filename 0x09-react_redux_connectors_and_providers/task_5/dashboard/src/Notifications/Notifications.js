@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { StyleSheet, css } from 'aphrodite';
+import PropTypes from 'prop-types';
+import { fetchNotifications } from '../actions/notificationActionCreators';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 
-export default class Notifications extends Component {
+class Notifications extends Component {
 	constructor(props) {
 		super(props);
+	}
+
+	componentDidMount() {
+		this.props.fetchNotifications();
 	}
 
 	render() {
@@ -67,11 +73,11 @@ export default class Notifications extends Component {
 }
 
 Notifications.propTypes = {
-	displayDrawer: propTypes.bool,
-	listNotifications: propTypes.arrayOf(NotificationItemShape),
-	handleDisplayDrawer: propTypes.func,
-	handleHideDrawer: propTypes.func,
-	markNotificationAsRead: propTypes.func,
+	displayDrawer: PropTypes.bool,
+	listNotifications: PropTypes.arrayOf(NotificationItemShape),
+	handleDisplayDrawer: PropTypes.func,
+	handleHideDrawer: PropTypes.func,
+	markNotificationAsRead: PropTypes.func,
 };
 
 Notifications.defaultProps = {
@@ -168,3 +174,15 @@ const styles = StyleSheet.create({
 		},
 	},
 });
+
+const mapStateToProps = (state) => {
+	return {
+		listNotifications: state.notifications.get('messages'),
+	};
+};
+
+const mapDispatchToProps = {
+	fetchNotifications,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
