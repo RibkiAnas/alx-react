@@ -1,20 +1,19 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { AppContext } from '../App/AppContext';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { getFooterCopy, getFullYear } from '../utils/utils';
 
-export default function Footer() {
+export function Footer({ user }) {
 	return (
-		<AppContext.Consumer>
-			{({ user }) => (
-				<p className={css(styles.p)}>
-					<>
-						Copyright {getFullYear()} - {getFooterCopy(true)}
-					</>
-					{user.isLoggedIn && <a className={css(styles.a)}>Contact us</a>}
-				</p>
-			)}
-		</AppContext.Consumer>
+		<>
+			<p className={css(styles.p)}>
+				<>
+					Copyright {getFullYear()} - {getFooterCopy(true)}
+				</>
+				{user && <a className={css(styles.a)}>Contact us</a>}
+			</p>
+		</>
 	);
 }
 
@@ -38,3 +37,19 @@ const styles = StyleSheet.create({
 		},
 	},
 });
+
+Footer.defaultProps = {
+	user: null,
+};
+
+Footer.propTypes = {
+	user: PropTypes.object,
+};
+
+const mapStateToProps = (state) => {
+	return {
+		user: state.get('user'),
+	};
+};
+
+export default connect(mapStateToProps, null)(Footer);
