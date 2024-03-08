@@ -16,7 +16,6 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			displayDrawer: false,
 			user: defaultUser,
 			logout: () => {
 				this.setState({ user: defaultUser });
@@ -44,8 +43,6 @@ class App extends Component {
 
 		this.handleKeyPress = this.handleKeyPress.bind(this);
 
-		this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-		this.handleHideDrawer = this.handleHideDrawer.bind(this);
 		this.logIn = this.logIn.bind(this);
 		this.markNotificationsAsRead = this.markNotificationsAsRead.bind(this);
 	}
@@ -75,14 +72,6 @@ class App extends Component {
 		}
 	};
 
-	handleDisplayDrawer() {
-		this.setState({ displayDrawer: true });
-	}
-
-	handleHideDrawer() {
-		this.setState({ displayDrawer: false });
-	}
-
 	logIn(email, password) {
 		this.setState({
 			user: {
@@ -110,15 +99,23 @@ class App extends Component {
 	}
 
 	render() {
-		const { user, logout } = this.state;
+		const { user, logout, listNotifications } = this.state;
+
+		const {
+			isLoggedIn,
+			displayDrawer,
+			displayNotificationDrawer,
+			hideNotificationDrawer,
+		} = this.props;
+
 		return (
 			<AppContext.Provider value={{ user, logOut: logout }}>
 				<Notifications
-					listNotifications={this.state.listNotifications}
+					listNotifications={listNotifications}
 					markNotificationsAsRead={this.markNotificationsAsRead}
-					displayDrawer={this.state.displayDrawer}
-					handleDisplayDrawer={this.handleDisplayDrawer}
-					handleHideDrawer={this.handleHideDrawer}
+					displayDrawer={displayDrawer}
+					handleDisplayDrawer={displayNotificationDrawer}
+					handleHideDrawer={hideNotificationDrawer}
 				/>
 				<div className='App'>
 					<Header />
@@ -186,6 +183,9 @@ const styles = StyleSheet.create({
 App.propTypes = {
 	isLoggedIn: PropTypes.bool,
 	logOut: PropTypes.func,
+	displayDrawer: PropTypes.bool,
+	displayNotificationDrawer: PropTypes.func,
+	hideNotificationDrawer: PropTypes.func,
 };
 
 App.defaultProps = {
@@ -193,6 +193,9 @@ App.defaultProps = {
 	logOut: () => {
 		return;
 	},
+	displayDrawer: false,
+	displayNotificationDrawer: () => {},
+	hideNotificationDrawer: () => {},
 };
 
 export const mapStateToProps = (state) => {
