@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import logo from '../assets/logo.jpg';
 import { StyleSheet, css } from 'aphrodite';
-import { AppContext } from '../App/AppContext';
 
-export default class Header extends Component {
+class Header extends Component {
+	constructor(props) {
+		super(props);
+	}
+
 	render() {
-		const data = this.context;
+		const { user, logout } = this.props;
+
 		return (
 			<>
 				<div className={css(styles['App-header'])}>
 					<img src={logo} className={css(styles['App-logo'])} alt='logo' />
 					<h1 className={css(styles.h1)}>School dashboard</h1>
 				</div>
-				{data.user.isLoggedIn && (
+				{user && (
 					<div className={css(styles.welcome)} id='logoutSection'>
-						Welcome {data.user.email}{' '}
-						<a className={css(styles.logout)} onClick={data.logOut}>
+						Welcome {user.email}{' '}
+						<a className={css(styles.logout)} onClick={logout}>
 							(logout)
 						</a>
 					</div>
@@ -24,8 +28,6 @@ export default class Header extends Component {
 		);
 	}
 }
-
-Header.contextType = AppContext;
 
 const screenSize = {
 	small: '@media screen and (max-width: 900px)',
@@ -63,3 +65,25 @@ const styles = StyleSheet.create({
 		cursor: 'pointer',
 	},
 });
+
+Header.defaultProps = {
+	user: null,
+	logout: () => {},
+};
+
+Header.propTypes = {
+	user: PropTypes.object,
+	logout: PropTypes.func,
+};
+
+const mapStateToProps = (state) => {
+	return {
+		user: state.get('user'),
+	};
+};
+
+const mapDispatchToProps = {
+	logout,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
