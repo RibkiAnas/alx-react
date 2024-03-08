@@ -3,8 +3,9 @@
  */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import App from './App';
+import App, { mapStateToProps } from './App';
 import Login from '../Login/Login';
+import { fromJS } from 'immutable';
 
 describe('App component', () => {
 	it('renders without crashing', () => {
@@ -127,6 +128,12 @@ describe('App component', () => {
 
 			expect(spy).toHaveBeenCalledWith('Logging you out');
 			jest.restoreAllMocks();
+		});
+
+		it('verify that the mapStateToProps returns the right object', () => {
+			const state = fromJS({ isUserLoggedIn: true });
+			const result = mapStateToProps(state);
+			expect(result).toEqual({ isLoggedIn: true });
 		});
 	});
 });
