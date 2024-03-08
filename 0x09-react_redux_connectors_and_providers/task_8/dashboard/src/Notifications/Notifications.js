@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {
 	fetchNotifications,
 	markAsAread,
+	setNotificationFilter,
 } from '../actions/notificationActionCreators';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItem from './NotificationItem';
@@ -27,7 +28,9 @@ class Notifications extends Component {
 			handleDisplayDrawer,
 			handleHideDrawer,
 			markNotificationAsRead,
+			setNotificationFilter,
 		} = this.props;
+
 		return (
 			<div className={css(styles.Noti)}>
 				{!displayDrawer ? (
@@ -37,6 +40,26 @@ class Notifications extends Component {
 				) : (
 					<div className={css(styles.Notifications)}>
 						<p>Here is the list of notifications</p>
+						<button
+							type='button'
+							className={css(styles.filterButton)}
+							id='buttonFilterUrgent'
+							onClick={() => {
+								setNotificationFilter('URGENT');
+							}}
+						>
+							❗❗
+						</button>
+						<button
+							type='button'
+							className={css(styles.filterButton)}
+							id='buttonFilterDefault'
+							onClick={() => {
+								setNotificationFilter('DEFAULT');
+							}}
+						>
+							💠
+						</button>
 						<ul className={css(styles.ul)}>
 							{listNotifications.length === 0 ? (
 								<li>
@@ -82,6 +105,7 @@ Notifications.propTypes = {
 	handleDisplayDrawer: PropTypes.func,
 	handleHideDrawer: PropTypes.func,
 	markNotificationAsRead: PropTypes.func,
+	setNotificationFilter: PropTypes.func,
 };
 
 Notifications.defaultProps = {
@@ -90,6 +114,8 @@ Notifications.defaultProps = {
 	handleDisplayDrawer: () => {},
 	handleHideDrawer: () => {},
 	markNotificationAsRead: () => {},
+	fetchNotifications: () => {},
+	setNotificationFilter: () => {},
 };
 
 const screenSize = {
@@ -181,13 +207,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	return {
-		listNotifications: getUnreadNotifications(state),
+		listNotifications: getUnreadNotificationsByType(state),
 	};
 };
 
 const mapDispatchToProps = {
 	fetchNotifications,
 	markNotificationAsRead: markAsAread,
+	setNotificationFilter,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
