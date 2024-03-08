@@ -130,12 +130,20 @@ describe('App component', () => {
 			jest.restoreAllMocks();
 		});
 
-		it('verify that the mapStateToProps returns the right object', () => {
+		it('verify that the mapStateToProps returns the right object from user login', () => {
 			const state = fromJS({ isUserLoggedIn: true });
 
 			const result = mapStateToProps(state);
 
 			expect(result).toEqual({ isLoggedIn: true });
+		});
+
+		it('verify that the mapStateToProps returns the right object from display drawer', () => {
+			const state = fromJS({ isNotificationDrawerVisible: true });
+
+			const result = mapStateToProps(state);
+
+			expect(result).toEqual({ displayDrawer: true });
 		});
 	});
 });
