@@ -12,7 +12,16 @@ import NotificationItem from './NotificationItem';
 import NotificationItemShape from './NotificationItemShape';
 import { getUnreadNotifications } from '../selectors/notificationSelector';
 
-function Notifications(props) {
+class Notifications extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	componentDidMount() {
+		this.props.fetchNotifications();
+	}
+
+	render() {
 		const {
 			displayDrawer,
 			listNotifications,
@@ -196,4 +205,16 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default Notifications;
+const mapStateToProps = (state) => {
+	return {
+		listNotifications: getUnreadNotificationsByType(state),
+	};
+};
+
+const mapDispatchToProps = {
+	fetchNotifications,
+	markNotificationAsRead: markAsAread,
+	setNotificationFilter,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
