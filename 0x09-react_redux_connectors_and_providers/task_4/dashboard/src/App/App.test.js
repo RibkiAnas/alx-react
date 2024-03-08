@@ -6,6 +6,11 @@ import { mount, shallow } from 'enzyme';
 import App, { mapStateToProps } from './App';
 import Login from '../Login/Login';
 import { fromJS } from 'immutable';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import uiReducer, { initialState } from '../reducers/uiReducer';
+
+const store = createStore(uiReducer, initialState);
 
 describe('App component', () => {
 	it('renders without crashing', () => {
@@ -131,7 +136,11 @@ describe('App component', () => {
 		});
 
 		it('verify that the mapStateToProps returns the right object from user login', () => {
-			const state = fromJS({ isUserLoggedIn: true });
+			const state = {
+				ui: fromJS({
+					isUserLoggedIn: true,
+				}),
+			};
 
 			const result = mapStateToProps(state);
 
@@ -139,7 +148,11 @@ describe('App component', () => {
 		});
 
 		it('verify that the mapStateToProps returns the right object from display drawer', () => {
-			const state = fromJS({ isNotificationDrawerVisible: true });
+			const state = {
+				ui: fromJS({
+					isNotificationDrawerVisible: true,
+				}),
+			};
 
 			const result = mapStateToProps(state);
 
